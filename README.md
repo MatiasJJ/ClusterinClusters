@@ -1,112 +1,103 @@
-> Collect here scripts, snippets and ideas  
-> Later also the implementations for merging into JKCS
+# ClusterinClusters
 
-# Readme/manual
+> Welcome to use `Clusterin'Clusters` -code! It is a program for Structure selection by k-means clustering algorithm
 
-### TODO
-- [ ] `n_clusters_out` away and replaced by just specifying `n_structures_out`
-- [ ] WHat to do when someone has renamed their files?
-  - [ ] Specify them in the input4Clustering.csv
-- [ ] Add input/output to the function docstrings
-
-## Main: `StructureSelection.py`
-
-### Variables
-| Variable          | Datatype        | Meaning        |
-| :---------------- | :-------------- | :------------- |
-| `n_jobs`          | int             | Number of jobs for parallelization |
-| `n_clusters_init` | int             | k of k-means |
-| `n_clusters_out`  | int             | n of clusters selected from initial k of k-means |
-| `n_structures_out`| int             | n of structures outputted from the selection |
-| `level`           | str             | parameter defining whether XTB of DFT is used |
-| `normEd`          | boolean         | Option to normalise energies to zero and convert to kcal/mol |
-| `own_cmap`        | [20*str]        | Define colornames to be used in plotting |
-| `wrkdir`          | str             | Path to current $WRKDIR |
-| `data_df`         | DataFrame       | Structure info from resultsXXX.dat |
-| `structure_index` | Index           | Indeces from `data_df.index`|
-| `xyz_df`          | DataFrame       | Structure xyz from movieXXX.dat |
-
-
-| `datafile`        | str             | Path of resultsXXX.dat |
-| `xyzfile`         | str             | Path of movieXXX.xyz |
-
-
-
-
-| `path_output`     | str             | Path to output folder inside $WRKDIR |
-| `dirname`         | str             | Input the name of scanned dir to `scan_xtb` |
-| `filetypes`       | [str]           | Input desired filetypes (other than .log or .xyz) to `scan_xtb` |
-| `subfolders`      | [str]           | Output subfolders from `scan_xtb`, used by `scan_xtb` for recursion |
-| `files`           | [str]           | Output list of files (other than .log or .xyz) from `scan_xtb` |
-| `zyxs`            | [str]           | Output list of .xyz names from `scan_xtb` |
-| `zyx_paths`       | [str]           | Output list of .xyz filepaths from `scan_xtb` |
-| `logs`            | [str]           | Output list of .log names from `scan_xtb` |
-| `log_paths`       | [str]           | Output list of .log filepaths from `scan_xtb` |
-| `path_XTB`        | str             | Path to XTB-folder |
-| `zyxs_df`         | DataFrame       | Sorted DataFrame of .xyz paths |
-| `logs_df`         | DataFrame       | Sorted DataFrame of .log paths |
-| `structures`      | DataFrame       | ASE-data of all structures indexed |
-| `zero_structure`  | ASE molecule    | For aquiring the elements and the size of the cluster |
-| `zero_name`       | str             | The name (index) of the first structure |
-| `chemsyms`        |                 | List of all atomsnames in the cluster |
-| `chemsyms_uniques`| [str]           | List of which elements the clusters have |
-| `n_atoms`         | int             | Number of atoms in the clusters |
-| `logtext`         | [str]           | input of `findEdip`, a logfile to be read |
-| `logdata`         | DataFrame       | Energy and Dipole (and GyRadius) values from XTB-logs |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-| ``        |  |  |
-
-### Functions
-| Function       | in             | out            | Purpose        |
-| :------------- | :------------- | :------------- | :------------- |
-| `makedir` | `dirname` |  | Make folders if they don't exist |
-| `scan_xtb` | `dirname`, `filetypes` | `subfolders`, `files`, `zyxs`, `zyx_paths`, `logs,log_paths` | Scan XTB folder recursively and return paths and names of .log and .xyz -files |
-| `view` | ASE structure | visualization | Visualize the molecule/cluster |
-| `findEdip` | XTB logfile as array of lines read | Values of E and dip | Find Energy and dipoles from XTB logfile |
-| `calcgr` | `xyzfile` | GyRadius | Calculate Radius of Gyration from given xyzfile |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-| `` | `` | `` |  |
-
-
-
-
-### Argparse
-> Not needed when input4Clustering.csv is used
-```python3
-if __name__ == '__main__':
-    from argparse import ArgumentParser
-    parser = ArgumentParser(description=__doc__)
-    # Add own arguments here
-    parser.add_argument("-n", "--n_jobs",type=int,required=True,help="Provide the number of parallel jobs")
-    parser.add_argument("-k", "--n_clusters_init",type=int,required=True,help="Provide the number of initial clusters for k-means")
-    parser.add_argument("-c", "--n_clusters_out",type=int,required=True,help="Provide the number of clusters selected from k-means")
-    parser.add_argument("-s", "--n_structures_out",type=int,required=True,help="Provide the number of structures = local minima outputted")
-    parser.add_argument("-l", "--level", type=str,required=True,help="[XTB]/[DFT] Whether to perform selection on XTB or DFT structures.")
-    parser.add_argument("--normEd", action='store_true',help="Normalise energies and convert to kcal/mol")
-    parser.add_argument("--verbose", action='store_true',help="Whether to print out some progress.")
-    args = parser.parse_args()
-else:
-    print("I don't know what you are doing but some parameters may not work..")
+> We assume you have just created a sh*tload of XTB-data and still your face looks like:
 ```
+  L...L  
+ < o o >
+  \   /
+  (^_^)
+  ```
+
+## Structure Selection
+In configurational sampling procedure structure selection is used to reduce the amount of calculation for the next level of theory -step. This can be achieved simply by discarding some structures from the process. `ClusterinClusters` uses [k-means](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) clustering for determining which structures are similar to each other. Similarity measure is Euclidian distance by default. The structures are represented as descriptors generated by the [`DScribe`-library](https://singroup.github.io/dscribe/).
+
+## Usage:
+**Standalone:**
+1. Make input data in same format than the example files (or edit the `read_data()`-function in `dataio.py` to fit your data)
+1. Edit the parameter input in `input4Clustering.csv`. See below for further parameter details.
+1. Run `StructureSelection.py`
+1. See selected structures in SelectedXXX.csv
+
+**In JKCS**
+1. Run JKCS up to part 4.
+1. *Run `JKCS5_filter` with some option?*
+
+## Input parameters
+The settings for `StructureSelection.py` can be edited by editing the values in `input4Clustering.csv`.
+
+|parameter|value|name|description|
+| :------ | :-- | :- | :-------- |
+|`n`|1|`n_jobs`|"Provide the number of parallel jobs"
+|`k`|15|`n_clusters_init`|"Provide the number of initial clusters ($k$) for k-means"
+|`c`|3|`n_clusters_out`|"Provide the number of clusters selected from k-means"
+|`m`|4|`n_molecules`|"Number of molecules in the given system"
+|`r`|True|`sampling`|"Whether to select a random sample from the best n_clusters_out"
+|`s`|20|`n_structures_out`|"Provide the number of structures = local minima outputted"
+|`l`|DFT|`level`|"[XTB]/[DFT] Whether to perform selection on XTB or DFT structures"
+|`e`|True|`normEd`|"Normalise energies and convert to kcal/mol"
+|`v`|True|`verbose`|"Whether to print out some progress"
+|`d`|MBTR|`descname`|"[CM]/[MBTR]/[SOAP] Which descriptor to use"
+|`pd`|True|`plotDescs`|"Whether to plot Descriptors"
+|`pc`|True|`plotClustering`|"Whether to visualize clustering results. Uses hierarchical clustering and rather greedy t-SNE"
+
+## Main program
+The main program performs all the functionalities of ClusterinClusters by calling the functions from the modules. It reads in the values `input4Clustering.csv` and passes them on to the functions as parameters.
+
+### Outputs
+The user can choose verbose on/off in `input4Clustering.csv` parameter `v` by providing `True`/`False`.
+
+#### Plots
+The program creates a folder "`plots`" for visual representation of descriptors and clustering results. User can choose not to plot descriptors or clustering with the parameters `pd` and `pc` respectively.
+
+Clustering results are visualised using [t-SNE](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html) and plotted both in 2D and in interactive 3D plot (`.html`) that can be opened in a browser.
+**Note:** t-SNE is a rather greedy algorithm so if there's thousands of structures or time is of the essence then `pc`=`False` is recommended.
+
+#### Selected Structures
+The structures are selected from the clustering results. The code calculates mean energies for each k-means cluster and prefers the clusters with smallest mean energies. Parameter `c` defines how many of $k$ clusters are selected. If random sampling is not used, all structures that belong to the selected clusters are outputted. Random sampling takes a sample of structures from the selected clusters and outputs them. Parameter `r` defines whether random sampling is used and parameter `s` defines the size of the sample *ie.* the number of structures outputted. Random sampling is recommended when saving time and calculation resources is of interest.
+
+The list of selected structures is outputted as `selectedXXX.csv`.
+
+## Modules
+
+### `dataio.py`
+
+| function | description     |
+| :------------- | :------------- |
+| makedir()       | Item Two       |
+| init_files()       | Item Two       |
+| read_data()       | Item Two       |
+| read_xyz()      | Item Two       |
+| get_structure()       | Item Two       |
+
+### `descriptors.py`
+
+| function | description     |
+| :------------- | :------------- |
+| setupDescs()       | Item Two       |
+| plotDescs()       | Item Two       |
+
+### `selection.py`
+
+| function | description     |
+| :------------- | :------------- |
+| calcKmeans()       | Item Two       |
+| calcEAvg()       | Item Two       |
+| getBestClusters()       | Item Two       |
+
+### `visualize.py`
+
+| function | description     |
+| :------------- | :------------- |
+| makeDend()       | Item Two       |
+| makeTsne_2D()       | Item Two       |
+| plotTsneE_3D()       | Item Two       |
+| struct2img()      | Item Two       |
+
+### `own_colormap.py`
+
+| function | description     |
+| :------------- | :------------- |
+| own_cmap()       | Item Two       |
+| visualise_colors()       | Item Two       |
