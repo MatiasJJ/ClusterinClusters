@@ -1,0 +1,13 @@
+parameter|value|name|description
+n|1|n_jobs|"Provide the number of parallel jobs"
+k|15|n_clusters_init|"Provide the number of initial clusters for k-means"
+c|3|n_clusters_out|"Provide the number of clusters selected from k-means"
+m|4|n_molecules|"Number of molecules in the given system"
+r|True|sampling|"Whether to select a random sample from the best n_clusters_out"
+s|20|n_structures_out|"Provide the number of structures = local minima outputted"
+l|DFT|level|"[XTB]/[DFT] Whether to perform selection on XTB or DFT structures"
+e|True|normEd|"Normalise energies and convert to kcal/mol"
+v|True|verbose|"Whether to print out some progress"
+d|MBTR|descname|"[CM]/[MBTR]/[SOAP] Which descriptor to use"
+pd|True|plotDescs|"Whether to plot Descriptors"
+pc|True|plotClustering|"Whether to visualize clustering results. Uses hierarchical clustering and rather greedy t-SNE"
