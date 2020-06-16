@@ -63,41 +63,51 @@ The list of selected structures is outputted as `selectedXXX.csv`.
 
 ### `dataio.py`
 
+This module is used for reading in the data.
+
 | function | description     |
-| :------------- | :------------- |
-| makedir()       | Item Two       |
-| init_files()       | Item Two       |
-| read_data()       | Item Two       |
-| read_xyz()      | Item Two       |
-| get_structure()       | Item Two       |
+| :-------------. | :------------- |
+| makedir()       | This function is used inside `init_files()` to create a folder if it does not exist. |
+| init_files()    | This function creates a folder for plots inside the `wrkdir` |
+| read_data()     | This function reads in the data from `JKCS` output. It needs the `level` parameter defined correctly. |
+| read_xyz()      | This function reads the xyz structures from `JKCS` output. It outputs the structures as a DataFrame of ASE objects. |
+| get_structure() | This function is used to choose one structure from ASE structures in order to get more relevant info from the structure. It can be used in conjunction with the `struct2img()` or `plotDescs()` functions to visualise chosen structure or its descriptors. |
 
 ### `descriptors.py`
 
+This module is used for transforming the structures from xyz-input to a descriptor. In the beginning the descriptor hyperparameters are defined and can be tuned if necessary.
+
 | function | description     |
 | :------------- | :------------- |
-| setupDescs()       | Item Two       |
-| plotDescs()       | Item Two       |
+| setupDescs()       | This function needs the DataFrame of structures represented as ASE objects and it outputs the structures represented with the descriptors in a DataFrame. |
+| plotDescs()       | This function has the same input as `setupDescs()` and it sets up the descriptors in a way suitable for plotting. The function can save the plots and show them. It will not run if parameter `pd` is set to `False`. |
 
 ### `selection.py`
 
+This module is used for structure selection functionalities.
+
 | function | description     |
 | :------------- | :------------- |
-| calcKmeans()       | Item Two       |
-| calcEAvg()       | Item Two       |
-| getBestClusters()       | Item Two       |
+| calcKmeans()       | Runs k-means algorithm on structures. Returns a cluster labels for each structure as an array. |
+| calcEAvg()       | Calculates an average energies for all clusters. Returns cluster labels and their respective anerage energies as a DataFrame. |
+| getBestClusters()       | Returns the structures that belong to the best clusters. Makes a random sample if requested by parameter `r` |
 
 ### `visualize.py`
 
+This module is used for visualisation purposes.
+
 | function | description     |
 | :------------- | :------------- |
-| makeDend()       | Item Two       |
-| makeTsne_2D()       | Item Two       |
-| plotTsneE_3D()       | Item Two       |
-| struct2img()      | Item Two       |
+| makeDend()     | Cluster structures with hierarchical clustering and either save the dendrogram plot or show only. |
+| makeTsne_2D()  | Visualise k-means results in 2D. Needs cluster labels as parameters. Can either save the plot or show only. |
+| plotTsneE_3D() | Visualise k-means results with energy as z-axis. Uses plotly to make interactive plot. Can either show the plot or save it as html that can be opened later in browser |
+| struct2img()   | Draw an 2D image of an ASE object. A lousy way of visualising the structures. |
 
 ### `own_colormap.py`
 
+This module is used for defining the colors used in plotting.
+
 | function | description     |
-| :------------- | :------------- |
-| own_cmap()       | Item Two       |
-| visualise_colors()       | Item Two       |
+| :------------------ | :------------- |
+| own_cmap()          | A function that defines colors to be used in plotting. Colors are chosen from [Matplotlib library](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) and can be edited. The function returns a list of colornames with length of `n_clusters_init` |
+| visualise_colors()  | This function provides a way of visualising the colors with a barplot. Gets number of colors as a parameter. |
