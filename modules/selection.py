@@ -59,6 +59,7 @@ def getBestClusters(datadf,level,descname,n_clusters,nk_out,ns_out,sampl):
         best_list.extend(indices)
 
     best_df = datadf[datadf.index.isin(best_list)]
+    #selected = datadf.index.isin(best_list)   # return array of boolean
 
     if sampl:
         best_df = best_df.sample(ns_out)
@@ -66,4 +67,5 @@ def getBestClusters(datadf,level,descname,n_clusters,nk_out,ns_out,sampl):
     else:
         print("🔘 Structure selection done.")
 
+    #return best_df, selected
     return best_df

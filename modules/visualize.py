@@ -76,11 +76,14 @@ def plotTsneE_3D(datadf,level,descname,v,path_output,Efilter,own_cmap,clustermet
               color=klabels,
               color_discrete_sequence=own_cmap,
               size="GyRadius",
+              opacity=0.9,
+              #symbol="symbol",   # Use if needed in Jupyter
               hover_name=datadf.index,
               title="{}'s' t-SNE + {}Energy".format(descname,level),
               #range_z=[-36,-20],
               width= 1200,
               height= 900)
+
 
     if onlyShow:
         fig.show()

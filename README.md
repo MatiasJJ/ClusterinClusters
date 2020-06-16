@@ -2,7 +2,7 @@
 
 > Welcome to use `Clusterin'Clusters` -code! It is a program for Structure selection by k-means clustering algorithm
 
-> We assume you have just created a sh*tload of XTB-data and still your face looks like:
+> We assume you have just created a whole lot of XTB-data and still your face looks like:
 ```
   L...L  
  < o o >
