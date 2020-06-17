@@ -82,13 +82,18 @@ if plotC:
     tsne_df = viz.makeTsne_2D(descs_df, structure_index, level, descname, n_clusters_init, n_jobs, verbose, path_output, kmeans_results, cmap.own_cmap(n_clusters_init))
     data_df["{}_{}_tsne1".format(level, descname)] = tsne_df.iloc[:,0]
     data_df["{}_{}_tsne2".format(level, descname)] = tsne_df.iloc[:,1]
-    viz.plotTsneE_3D(data_df, level, descname, verbose, path_output, 5*M, cmap.own_cmap(n_clusters_init))
     if verbose: print("⏱  Time elapsed: {} sec".format(timer()-start))
 
 if verbose: print("🥳 Calc cluster average energies and perform structure selection:")
 EAvg_df = sel.calcEAvg(data_df, level, descname, n_clusters_init)
 best_df = sel.getBestClusters(data_df, level, descname, n_clusters_init, n_clusters_out, n_structures_out, sampl)
 if verbose: print("⏱  Time elapsed: {} sec".format(timer()-start))
+
+if plotC:
+    if verbose: print("🥳 Plot t-SNE:")
+    viz.plotTsneE_3D(data_df, level, descname, verbose, path_output, 5*M, cmap.own_cmap(n_clusters_init))
+    viz.plotTsneE_3D(best_df, level, descname, verbose, path_output, 5*M, cmap.own_cmap(n_clusters_init), selected=True)
+    if verbose: print("⏱  Time elapsed: {} sec".format(timer()-start))
 
 if plotD:
     if verbose: print("🥳 Plotting example descriptor into plots-folder")

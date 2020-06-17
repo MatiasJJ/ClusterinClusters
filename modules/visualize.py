@@ -61,12 +61,14 @@ def makeTsne_2D(desdf,indexs,level,descname,n_clusters,steve,v,path_output,clust
 
     return tsne_df
 
-def plotTsneE_3D(datadf,level,descname,v,path_output,Efilter,own_cmap,clustermethod="kmeans",onlyShow=False):
+def plotTsneE_3D(datadf,level,descname,v,path_output,Efilter,own_cmap,clustermethod="kmeans",onlyShow=False,selected=False):
     """
     Visualise clustering results with t-SNE and Energy as the third axis.
     Saves an interactive visualisation as .html (open in browser)
     """
-    datadf = datadf[datadf["{}Energy".format(level)]<=Efilter].sort_values(by="{}_{}_klabel".format(level,descname))
+
+    if not selected:
+        datadf = datadf[datadf["{}Energy".format(level)]<=Efilter].sort_values(by="{}_{}_klabel".format(level,descname))
 
     klabels = datadf["{}_{}_klabel".format(level,descname)].astype(str)
     fig = px.scatter_3d(data_frame=datadf,
@@ -87,6 +89,8 @@ def plotTsneE_3D(datadf,level,descname,v,path_output,Efilter,own_cmap,clustermet
 
     if onlyShow:
         fig.show()
+    elif selected:
+        fig.write_html("{}/{}_{}_EtSNE_selected.html".format(path_output,level,descname))
     else:
         fig.write_html("{}/{}_{}_EtSNE.html".format(path_output,level,descname))
 
