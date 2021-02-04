@@ -67,7 +67,7 @@ The list of selected structures is outputted as `selectedXXX.csv`.
 This module is used for reading in the data.
 
 | function | description     |
-| :-------------. | :------------- |
+| :-------------- | :------------- |
 | makedir()       | This function is used inside `init_files()` to create a folder if it does not exist. |
 | init_files()    | This function creates a folder for plots inside the `wrkdir` |
 | read_data()     | This function reads in the data from `JKCS` output. It needs the `level` parameter defined correctly. |
